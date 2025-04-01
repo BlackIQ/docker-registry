@@ -3,7 +3,7 @@ all: up
 
 up:
 	@echo "Creating docker containers"
-	docker compose -p docker-registry up -d --build
+	docker compose -p docker-registry up -d
 
 down:
 	@echo "Stopping and removing docker containers"
