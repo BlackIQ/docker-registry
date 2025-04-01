@@ -8,13 +8,13 @@ fi
 USERNAME=$1
 NEW_PASSWORD=$2
 
-if ! grep -q "^$USERNAME:" /etc/docker-registry/auth/htpasswd; then
+if ! grep -q "^$USERNAME:" /volumes/registry/auth/htpasswd; then
     echo "User $USERNAME does not exist."
     exit 1
 fi
 
-sed -i "/^$USERNAME:/d" /etc/docker-registry/auth/htpasswd
+sed -i "/^$USERNAME:/d" /volumes/registry/auth/htpasswd
 
-docker run --rm --entrypoint htpasswd httpd:2 -Bbn "$USERNAME" "$NEW_PASSWORD" >> /etc/docker-registry/auth/htpasswd
+docker run --rm --entrypoint htpasswd httpd:2 -Bbn "$USERNAME" "$NEW_PASSWORD" >> /volumes/registry/auth/htpasswd
 
 echo "Password for user $USERNAME has been changed."

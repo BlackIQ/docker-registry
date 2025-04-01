@@ -8,6 +8,6 @@ fi
 USERNAME=$1
 PASSWORD=$2
 
-docker run --rm --entrypoint htpasswd httpd:2 -Bbn "$USERNAME" "$PASSWORD" >> /etc/docker-registry/auth/htpasswd
+docker run --rm --entrypoint htpasswd httpd:2 -Bbn "$USERNAME" "$PASSWORD" >> /volumes/registry/auth/htpasswd
 
 echo "User $USERNAME added to auth/htpasswd"

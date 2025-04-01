@@ -13,8 +13,8 @@ services:
       - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
       - REGISTRY_STORAGE_DELETE_ENABLED=true
     volumes:
-      - /etc/docker-registry/auth:/auth
-      - /images/registry:/var/lib/registry
+      - /volumes/registry/auth:/auth
+      - /volumes/registry/images:/var/lib/registry
     networks:
       - application-network
 
