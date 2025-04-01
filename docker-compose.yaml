@@ -1,0 +1,47 @@
+services:
+  registry-api:
+    image: registry:latest
+    container_name: registry-api
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+    volumes:
+      - /etc/docker-registry/auth:/auth
+      - /images/registry:/var/lib/registry
+    networks:
+      - registry-net
+
+  registry-client:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-client
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      - REGISTRY_TITLE=Rahpoo Docker Registry
+      - NGINX_PROXY_PASS_URL=http://registry-api:5000
+      - DELETE_IMAGES=true
+      - SINGLE_REGISTRY=true
+    networks:
+      - registry-net
+
+  registry-proxy:
+    build: ./nginx
+    image: registry-proxy:latest
+    container_name: registry-proxy
+    restart: always
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - registry-net
+
+networks:
+  registry-net:
+    name: registry-net
+    driver: bridge
