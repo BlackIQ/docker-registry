@@ -1,5 +1,9 @@
-.PHONY: all up down restart
-all: up
+.PHONY: all update up down restart
+all: update up
+
+update:
+	@echo "Updating repository"
+	git pull
 
 up:
 	@echo "Creating docker containers"
